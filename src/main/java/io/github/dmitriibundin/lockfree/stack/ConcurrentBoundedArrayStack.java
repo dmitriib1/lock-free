@@ -6,7 +6,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Array-based bounded concurrent lock-free stack implementation.
- * 
+ *
  * @param <T> - the type of the element
  */
 public class ConcurrentBoundedArrayStack<T> implements Stack<T> {
@@ -40,7 +40,7 @@ public class ConcurrentBoundedArrayStack<T> implements Stack<T> {
             }
             //noinspection unchecked
             currentValue = (T) ARRAY_VAR_HANDLE.getAcquire(array, currentSize);
-        } while(currentValue != null || size.compareAndSet(currentSize, currentSize + 1));
+        } while(currentValue != null || !size.compareAndSet(currentSize, currentSize + 1));
         ARRAY_VAR_HANDLE.setRelease(array, currentSize, t);
         return t;
     }
@@ -55,8 +55,8 @@ public class ConcurrentBoundedArrayStack<T> implements Stack<T> {
                 return null;
             }
             //noinspection unchecked
-            currentValue = (T) ARRAY_VAR_HANDLE.getAcquire(array, currentSize - 1)
-        } while(currentValue == null || size.compareAndSet(currentSize, currentSize - 1));
+            currentValue = (T) ARRAY_VAR_HANDLE.getAcquire(array, currentSize - 1);
+        } while(currentValue == null || !size.compareAndSet(currentSize, currentSize - 1));
         ARRAY_VAR_HANDLE.setRelease(array, currentSize - 1, null);
         return currentValue;
     }
