@@ -62,7 +62,7 @@ public class ConcurrentLinkedQueue<T> implements Queue<T> {
             } else if (currentTailValue == null) {
                 tail.compareAndSet(currentTail, next);
             } else {
-                if(tail.compareAndSet(currentTail, next)) return currentTailValue;
+                if(currentTail.value.compareAndSet(currentTailValue, null)) return currentTailValue;
             }
         }
     }
