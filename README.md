@@ -1,2 +1,2 @@
 # lock-free
-A collection of missing lock-free algorithms
+Lock-free algorithms and data structures implementation.
