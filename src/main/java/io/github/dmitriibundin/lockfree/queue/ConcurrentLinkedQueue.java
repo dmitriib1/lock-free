@@ -3,7 +3,8 @@ package io.github.dmitriibundin.lockfree.queue;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
- * Michael-Scott algorithm implementation for linked queue
+ * Michael-Scott algorithm implementation for linked queue.
+ * Unbounded lock-free queue without {@code null} values.
  *
  * @param <T>
  */

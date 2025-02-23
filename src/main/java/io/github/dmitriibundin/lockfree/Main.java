@@ -9,7 +9,7 @@ import java.util.List;
 public class Main {
     // A simple experiment with ConcurrentBoundedArrayStack
     public static void main(String args[]) throws InterruptedException {
-        Queue<Integer> q = new ConcurrentLinkedQueue<Integer>();
+        Queue<Integer> q = new ConcurrentLinkedQueue<>();
         Thread writer1 = new Thread(() -> {
             for (int i = 0; i < 8192; i++){
                 q.enqueu(i);
