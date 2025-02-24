@@ -52,7 +52,7 @@ public class ConcurrentLinkedQueue<T> implements Queue<T> {
     }
 
     @Override
-    public T remove() {
+    public T poll() {
         while(true) {
             Node<T> currentTail = tail.get();
             T currentTailValue = currentTail.value.get();

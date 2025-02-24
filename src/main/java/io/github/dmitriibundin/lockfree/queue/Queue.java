@@ -16,5 +16,5 @@ public interface Queue<T> {
      * @return The latest first element of the queue
      *         {@code null} if the queue is empty
      */
-    T remove();
+    T poll();
 }

@@ -13,37 +13,53 @@ public class Main {
         List<Integer> values = Collections.synchronizedList(new ArrayList<>());
         Queue<Integer> q = new ConcurrentLinkedQueue<>();
         Thread writer1 = new Thread(() -> {
-            for (int i = 0; i < 8192; i++){
+            for (int i = 0; i < 8192 * 4; i++){
                 q.enqueu(i);
             }
         });
         Thread writer2 = new Thread(() -> {
-            for (int i = 0; i < 8192; i++){
+            for (int i = 0; i < 8192 * 4; i++){
+                q.enqueu(i);
+            }
+        });
+        Thread writer3 = new Thread(() -> {
+            for (int i = 0; i < 8192 * 4; i++){
                 q.enqueu(i);
             }
         });
         Thread reader1 = new Thread(() -> {
-            for(int i = 0; i < 1000000; i++) {
-                Integer tail = q.remove();
+            for(int i = 0; i < 10000000; i++) {
+                Integer tail = q.poll();
                 if(tail == null) continue;
                 values.add(tail);
             }
         });
         Thread reader2 = new Thread(() -> {
-            for(int i = 0; i < 1000000; i++) {
-                Integer tail = q.remove();
+            for(int i = 0; i < 10000000; i++) {
+                Integer tail = q.poll();
                 if(tail == null) continue;
                 values.add(tail);
             }
         });
-        writer1.start();
-        writer2.start();
+        Thread reader3 = new Thread(() -> {
+            for(int i = 0; i < 10000000; i++) {
+                Integer tail = q.poll();
+                if(tail == null) continue;
+                values.add(tail);
+            }
+        });
         reader1.start();
-        reader2.start();
+        writer1.start();
         writer1.join();
-        writer2.join();
         reader1.join();
+        writer2.start();
+        reader2.start();
+//        writer3.start();
+//        reader3.start();
+        writer2.join();
+//        writer3.join();
         reader2.join();
+//        reader3.join();
         System.out.println(values.size());
     }
 }
